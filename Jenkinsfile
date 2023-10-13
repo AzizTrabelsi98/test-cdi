@@ -10,7 +10,7 @@ pipeline{
             steps{
       			checkout([$class: 'GitSCM', branches: [[name: '*/main']],
 			extensions: [],
-			userRemoteConfigs: [[url: 'https://github.com/hadhemi12345/test-cicd.git']]])
+			userRemoteConfigs: [[url: 'https://github.com/AzizTrabelsi98/test-cdi.git']]])
             }
         }
 
@@ -42,7 +42,7 @@ pipeline{
         stage('Code Quality Check via SonarQube') {
             steps{
 
-             		sh "  mvn clean verify sonar:sonar -Dsonar.projectKey=cicd -Dsonar.projectName='cicd' -Dsonar.host.url=http://192.168.33.10:9000 -Dsonar.token=sqp_e5f5f91cead786d70d9a58c4e69e09a650330bee "
+             		sh "  mvn clean verify sonar:sonar -Dsonar.projectKey=cicd -Dsonar.host.url=http://172.10.0.140:9000/-Dsonar.login=sqp_5b9561fb0e72e73c93bfa5b5f966ec6dba0322b4 "
 
             }
         }
@@ -52,8 +52,7 @@ pipeline{
             steps {
 
 
-  sh 'mvn clean package deploy:deploy-file -DgroupId=com.esprit.examen -DartifactId=tpAchatProject -Dversion=1.2 -DgeneratePom=true -Dpackaging=jar -DrepositoryId=maven-releases -Durl=http://localhost:8081/repository/maven-releases/ -Dfile=target/tpAchatProject-1.2.jar'
-
+  sh "mvn clean verify sonar:sonar -Dsonar.projectKey=cicd  -Dsonar.projectName='cicd' -Dsonar.host.url=http://172.10.0.140:9000 -Dsonar.token=sqp_5b9561fb0e72e73c93bfa5b5f966ec6dba0322b4"
 
             }
         }
@@ -61,7 +60,7 @@ pipeline{
 stage('Build Docker Image') {
                       steps {
                           script {
-                            sh 'docker build -t amirovvv/spring-app:first .'
+                            sh 'docker build -t azizoss/spring-app:first .'
                           }
                       }
                   }
@@ -69,7 +68,7 @@ stage('Build Docker Image') {
                   stage('login dockerhub') {
                                         steps {
                                      // sh 'echo dckr_pat_-SnwrdC_ELsL6it2JT6cgIcAlrs | docker login -u azizbenhaha --password-stdin'
-				sh 'docker login -u amirovvv --password dckr_pat_LAIjui5cw-3dOSsdt8AoUuVNZ5o'
+				sh 'docker login -u azizoss --password dckr_pat_9wYLJvVisxnXRtwPxxHrxFZt_Dw'
                                             }
 		  }
 	    
